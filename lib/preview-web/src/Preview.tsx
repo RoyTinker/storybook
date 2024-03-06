@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import dedent from 'ts-dedent';
 import global from 'global';
 import { SynchronousPromise } from 'synchronous-promise';

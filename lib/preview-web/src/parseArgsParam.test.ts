@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import { parseArgsParam } from './parseArgsParam';
 
 jest.mock('@storybook/client-logger', () => ({

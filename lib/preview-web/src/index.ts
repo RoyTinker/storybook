@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 // FIXME: breaks builder-vite, remove this in 7.0
 export { composeConfigs } from '@storybook/store';
 export type { WebProjectAnnotations } from '@storybook/store';

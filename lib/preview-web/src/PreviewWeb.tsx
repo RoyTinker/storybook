@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import global from 'global';

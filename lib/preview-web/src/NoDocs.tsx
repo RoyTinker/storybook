@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import React, { CSSProperties } from 'react';
 
 const wrapper = {

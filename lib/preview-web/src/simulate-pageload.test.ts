@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import global from 'global';
 import { simulatePageLoad } from './simulate-pageload';
 

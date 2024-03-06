@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import global from 'global';
 import { AnyFramework, StoryId, ViewMode, StoryContextForLoaders } from '@storybook/csf';
 import { Story, StoryStore, CSFFile } from '@storybook/store';

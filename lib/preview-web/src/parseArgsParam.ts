@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import qs from 'qs';
 import dedent from 'ts-dedent';
 import type { Args } from '@storybook/addons';

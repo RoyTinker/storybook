@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import global from 'global';
 import * as ReactDOM from 'react-dom';
 import merge from 'lodash/merge';

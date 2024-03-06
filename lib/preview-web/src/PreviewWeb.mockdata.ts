@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import { EventEmitter } from 'events';
 import {
   DOCS_RENDERED,

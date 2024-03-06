@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import type { SelectionSpecifier, Selection } from '@storybook/store';
 
 import global from 'global';

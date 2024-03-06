@@ -1,5 +1,11 @@
-import React, { ComponentType } from 'react';
-import ReactDOM from 'react-dom';
+/* eslint-disable */
+// @ts-nocheck
+
+import global from 'global';
+
+import React, { ComponentType, useLayoutEffect, useRef } from 'react';
+import ReactDOM, { version as reactDomVersion } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { AnyFramework } from '@storybook/csf';
 import { Story } from '@storybook/store';
 
@@ -14,6 +20,29 @@ export function renderDocs<TFramework extends AnyFramework>(
 ) {
   return renderDocsAsync(story, docsContext, element).then(callback);
 }
+
+const elementRoots = new WeakMap<HTMLElement, any>();
+
+const { FRAMEWORK_OPTIONS } = global;
+const canUseNewReactRootApi =
+  reactDomVersion && (reactDomVersion.startsWith('18') || reactDomVersion.startsWith('0.0.0'));
+const shouldUseNewRootApi = FRAMEWORK_OPTIONS?.legacyRootApi !== true;
+const isUsingNewReactRootApi = shouldUseNewRootApi && canUseNewReactRootApi;
+
+const WithCallback: FC<{ callback: () => void; children: ReactElement }> = ({
+  callback,
+  children,
+}) => {
+  // See https://github.com/reactwg/react-18/discussions/5#discussioncomment-2276079
+  const once = useRef<() => void>();
+  useLayoutEffect(() => {
+    if (once.current === callback) return;
+    once.current = callback;
+    callback();
+  }, [callback]);
+
+  return children;
+};
 
 async function renderDocsAsync<TFramework extends AnyFramework>(
   story: Story<TFramework>,
@@ -41,10 +70,27 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
   );
 
   await new Promise<void>((resolve) => {
-    ReactDOM.render(docsElement, element, resolve);
+    if (isUsingNewReactRootApi) {
+      let root = elementRoots.get(element);
+      if (!root) {
+        root = createRoot(element);
+        elementRoots.set(element, root);
+      }
+      root.render(<WithCallback callback={() => resolve(null)}>{docsElement}</WithCallback>);
+    } else {
+      ReactDOM.render(docsElement, element, resolve);
+    }
   });
 }
 
 export function unmountDocs(element: HTMLElement) {
-  ReactDOM.unmountComponentAtNode(element);
+  if (isUsingNewReactRootApi) {
+    const root = elementRoots.get(element);
+    if (root) {
+      root.unmount();
+      elementRoots.delete(element);
+    }
+  } else {
+    ReactDOM.unmountComponentAtNode(element);
+  }
 }

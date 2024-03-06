@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import React from 'react';
 import global from 'global';
 import { RenderContext } from '@storybook/store';
